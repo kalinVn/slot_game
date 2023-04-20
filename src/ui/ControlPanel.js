@@ -9,7 +9,7 @@ class ControlPanel {
         this._container;
 	}
 
-	async create () {
+	create () {
         this._shape = new Shape();
         this._button = new Button();
         const btnParams = {
@@ -32,12 +32,19 @@ class ControlPanel {
 			color : '0x523900FF'
 		};
 
-        const shape = await this._shape.drawRect(params);
+        const shape = this._shape.drawRect(params);
         shape.alpha = 0.2;
         this._container.addChild(shape);
         
         const btnContainer = this._button.getContainer();
         this._container.addChild(btnContainer);
+
+        this._button.getContainer().once('click', () => {
+			this._button.getContainer().alpha = 0.5;
+			this._button.getContainer().cursor = "arrow";
+			this._button.getContainer().off();
+			this._container.emit("PRESSED")
+		});
 	}
     
     getContainer () {

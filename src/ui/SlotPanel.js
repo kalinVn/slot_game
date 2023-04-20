@@ -46,7 +46,7 @@ class SlotPanel {
                     sprite.name = "lemon"
                 } else if (randomSymbolIndex == 1) {
                     sprite.name = "orange"
-                } if (randomSymbolIndex == 2) {
+                } else if (randomSymbolIndex == 2) {
                     sprite.name = "plum"
                 }
                 sprite.width = SYMBOL_WIDTH;
@@ -64,6 +64,8 @@ class SlotPanel {
             xPosReel += SLOT_PANEL_REEL_X_POS;
             this._container.addChild(reelContainer);
         }
+
+        
     }
 
     async play () {
@@ -160,12 +162,7 @@ class SlotPanel {
                         }
                     }
 
-                    const gameEndEvent = new CustomEvent("gameEnd", {
-                        bubbles: true,
-                    });
-                    
-                    const canvas = document.querySelector('canvas');
-                    canvas.dispatchEvent(gameEndEvent);
+                    this._container.emit("GAMEEND");
                 }, 1000);
                 
                 return;

@@ -12,12 +12,14 @@ class Game {
 		this.app.stage.interactive = true;
 		document.body.appendChild(this.app.view);
 		
-		PIXI.Assets.load([
+		await PIXI.Assets.load([
 			'../assets/resources/sym_anim.png',
 			'../assets/resources/sym_lemon.png',
 			'../assets/resources/sym_orange.png',
 			'../assets/resources/sym_plum.png'
-		]).then(this._create());
+		]);
+
+		await this._create()
 	}
 
 	_create () {
@@ -27,21 +29,22 @@ class Game {
 
 		this.app.stage.addChild(this._controlsPanel.getContainer());
 
-		this._controlsPanel.getButton().getContainer().once('click', () => {
-			this._controlsPanel.getButton().getContainer().alpha = 0.5;
-			this._controlsPanel.getButton().getContainer().cursor = "arrow";
-			this._controlsPanel.getButton().getContainer().off();
+		this._controlsPanel.getContainer().on('PRESSED', () => {
 			this._slotPanel.play()
 		});
 
-		const canvas = document.querySelector('canvas');
-		canvas.addEventListener('gameEnd', e => {
-			this._slotPanel.gameEnd();
-			this.app.stage.removeChild(this._controlsPanel.getContainer());
-		});
+		this._attachGameEndListener();
 
+		const canvas = document.querySelector('canvas');
 		canvas.addEventListener('playAgain', e => {
 			this._clear();
+		});
+	}
+
+	_attachGameEndListener () {
+		this._slotPanel.getContainer().on('GAMEEND', () => {
+			this._slotPanel.gameEnd();
+			this.app.stage.removeChild(this._controlsPanel.getContainer());
 		});
 	}
 
@@ -49,6 +52,7 @@ class Game {
 		this.app.stage.removeChild(this._slotPanel.getContainer());
 		this._createSlotContainer();
 		this._slotPanel.play();
+		this._attachGameEndListener();
 	}
 
 	_createSlotContainer () {

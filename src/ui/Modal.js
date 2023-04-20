@@ -18,7 +18,7 @@ class Modal {
         this._container;
 	}
 
-	async create (params) { 
+	create (params) { 
         const lines = params.lines;
         
         this._shape = new Shape();
@@ -34,7 +34,7 @@ class Modal {
 
         this._container = new Container();
        
-        const shape = await this._shape.drawRect(paramsShape);
+        const shape = this._shape.drawRect(paramsShape);
         shape.alpha = MODAL_ALPHA;
         this._container.addChild(shape);
 

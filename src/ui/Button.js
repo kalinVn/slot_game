@@ -7,7 +7,7 @@ class Button {
         this._container;
 	}
 
-	async create (params) {
+	create (params) {
 		const label = params.label
 		const x = params.x;
 		const y = params.y;
@@ -26,7 +26,7 @@ class Button {
 			color : '0xf51d1d'
 		}
 
-        this._shape = await this._shape.drawRect(paramsShape);
+        this._shape = this._shape.drawRect(paramsShape);
 		this._container.addChild(this._shape);
 		this._container.buttonMode = true;
 		this._container.cursor = 'pointer';

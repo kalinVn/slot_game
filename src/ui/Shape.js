@@ -3,7 +3,7 @@ import {Graphics} from 'pixi.js';
 
 class Shape {
 
-        async drawRect (params) { 
+        drawRect (params) { 
                 let graphic = new Graphics();
 
                 graphic.beginFill(params.color, 1);
